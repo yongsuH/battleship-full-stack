@@ -226,7 +226,7 @@ export default function Game() {
       {winner && <h2 style={{ color: 'orange' }}>Game Over! {winner} Won!</h2>}
   
       <h1>
-        {mode === 'normal' ? 'Standard Mode: You vs AI' : 'Free Play Mode: Practice freely!'}
+        {mode === 'normal' ? 'Game Mode: Normal' : 'Game Mode: Free Play'}
       </h1>
   
       {mode === 'easy' ? (
