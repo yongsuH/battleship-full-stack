@@ -1,0 +1,121 @@
+.game-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.restart-button {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: transform 0.2s ease-in-out;
+}
+
+.restart-button:active {
+    transform: scale(0.9); /* shrink on click */
+}
+
+.restart-button:hover {
+    background-color: darkred;
+}
+/* 10x9 grid */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(10, 40px); /* 10 列 */
+    grid-template-rows: repeat(9, 40px); /* 9 行 */
+    gap: 5px; /* gaps between cells */
+    justify-content: center;
+    margin-top: 10px;
+}
+
+/* board container */
+.game-boards {
+    display: flex; 
+    justify-content: space-between; 
+    gap: 50px; /* gap between boards */
+    padding: 20px;
+}
+
+/* board */
+.board {
+    width: 45%; 
+    text-align: center;
+}
+
+.board h3::before {
+    content: "⚓ "; /* add symbol before title3 */
+    color: navy;
+    font-weight: bold;
+}
+
+.board h3::after {
+    content: " 🚢"; /* add symbol before title3 */
+    color: red;
+    font-weight: bold;
+}
+/* board cell */
+.cell {
+    width: 40px;
+    height: 40px;
+    background-color: lightblue;
+    border: 1px solid #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer; /* turn to pointer */
+}
+
+/* (✔）style */
+.cell-check {
+    background-color: green !important;
+    color: white;
+}
+
+/* (✖）style */
+.cell-cross {
+    background-color: red !important;
+    color: white;
+}
+
+/* 1280px smaller cell */
+@media (max-width: 1280px) {
+    .grid {
+        grid-template-columns: repeat(10, 30px); 
+        grid-template-rows: repeat(9, 30px);
+        gap: 3px; /* smaller gap */
+    }
+    .cell {
+        width: 30px;
+        height: 30px;
+        font-size: 16px; /* smaller font */
+    }
+}
+
+/* 适配 768px veritcal boards arrangement */
+@media (max-width: 768px) {
+    .game-boards {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px; 
+    }
+    .grid {
+        grid-template-columns: repeat(10, 20px); /* smaller font */
+        grid-template-rows: repeat(9, 20px);
+        gap: 3px; /* smaller gap */
+    }
+    .cell {
+        width: 20px;
+        height: 20px;
+        font-size: 12px; /* smaller font */
+    }
+    .board {
+        width: 100%; 
+    }
+}
