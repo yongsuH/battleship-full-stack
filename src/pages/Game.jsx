@@ -86,7 +86,7 @@ export default function Game() {
   }, [mode]);
   
 
-  // initialize normal mode
+  // 初始化加载存档（仅 normal 模式）
   useEffect(() => {
     const saved = localStorage.getItem('battleship-save');
     if (saved && mode === 'normal') {
@@ -99,13 +99,13 @@ export default function Game() {
       setTimer(data.timer);
       setHasStarted(data.hasStarted);
       setIsSetupComplete(true);
-    } else if (mode === 'easy') {
-      //setEnemyBoard(generateRandomBoardWithShips());
+    } else if (mode === 'easy' && !saved) {
+      setEnemyBoard(generateRandomBoardWithShips());
       setIsSetupComplete(true);
     }
   }, []);
 
-  // save game status in Normal
+  // 每次状态变化保存游戏（仅 normal）
   useEffect(() => {
     if (mode === 'normal' && isSetupComplete && playerBoard.length && enemyBoard.length) {
       const saveData = {
@@ -121,7 +121,6 @@ export default function Game() {
     }
   }, [playerBoard, enemyBoard, playerHits, aiHits, winner, timer, hasStarted]);
 
-  // save game status in free play
   useEffect(() => {
     if (mode === 'easy' && enemyBoard.length > 0) {
       const saveData = {
@@ -133,17 +132,18 @@ export default function Game() {
       localStorage.setItem('battleship-save', JSON.stringify(saveData));
     }
   }, [enemyBoard, timer, hasStarted, winner]);
-
-  // initialize normal
+  
+  // 敌人棋盘初始化（normal）
   useEffect(() => {
     if (mode === 'normal' && isSetupComplete && enemyBoard.length === 0) {
       setEnemyBoard(generateRandomBoardWithShips());
     }
   }, [isSetupComplete]);
 
-  // clear and refresh after winning
+  // 胜利后清除存档 + 刷新
   useEffect(() => {
     if (winner) {
+      setIsSetupComplete(true);
       localStorage.removeItem('battleship-save');
       setTimeout(() => window.location.reload(), 1000);
     }
@@ -226,7 +226,7 @@ export default function Game() {
       {winner && <h2 style={{ color: 'orange' }}>Game Over! {winner} Won!</h2>}
   
       <h1>
-        {mode === 'normal' ? 'Game Mode: Normal' : 'Game Mode: Free Play'}
+        {mode === 'normal' ? 'Standard Mode: You vs AI' : 'Free Play Mode: Practice freely!'}
       </h1>
   
       {mode === 'easy' ? (
