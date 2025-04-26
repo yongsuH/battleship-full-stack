@@ -18,7 +18,7 @@ export default function Navbar() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch('/api/me', { credentials: 'include' })
+    fetch('https://battleship-full-stack.onrender.com/api/me', { credentials: 'include' })
       .then(res => {
         if (res.ok) return res.json();
         throw new Error('Not logged in');
@@ -28,7 +28,7 @@ export default function Navbar() {
   }, []);
 
   const handleLogout = async () => {
-    await fetch('/api/logout', { method: 'POST', credentials: 'include' });
+    await fetch('https://battleship-full-stack.onrender.com/api/logout', { method: 'POST', credentials: 'include' });
     localStorage.removeItem('username');
     setUsername(null);
     toast.success('You have logged out successfully!');
@@ -38,7 +38,7 @@ export default function Navbar() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    const res = await fetch('/api/login', {
+    const res = await fetch('https://battleship-full-stack.onrender.com/api/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
@@ -66,7 +66,7 @@ export default function Navbar() {
   const handleSignup = async (e) => {
     console.log('Signup form submitted'); 
     e.preventDefault();
-    const res = await fetch('/api/register', {
+    const res = await fetch('https://battleship-full-stack.onrender.com/api/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
