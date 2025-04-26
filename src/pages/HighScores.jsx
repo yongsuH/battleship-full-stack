@@ -1,30 +1,48 @@
-import React from 'react';
-import '../styles/score.css';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function HighScores() {
-  return (
-    <main className="scores-container">
-      <h1>High Scores</h1>
+  const [scores, setScores] = useState([]);
+  const storedUsername = localStorage.getItem('username');
 
-      <table className="scores-table">
+  useEffect(() => {
+    fetch('/api/highscores', {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include'
+    })
+      .then(res => res.json())
+      .then(data => setScores(data))
+      .catch(err => console.error('Failed to fetch high scores:', err));
+  }, []);
+
+  return (
+    <div style={{ padding: '2rem' }}>
+      <h1>High Scores</h1>
+      <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
         <thead>
-          <tr>
-            <th>Rank</th>
-            <th>Username</th>
-            <th>Wins</th>
-            <th>Losses</th>
+          <tr style={{ borderBottom: '2px solid #ccc' }}>
+            <th style={{ padding: '0.5rem' }}>Username</th>
+            <th style={{ padding: '0.5rem' }}>Wins</th>
+            <th style={{ padding: '0.5rem' }}>Losses</th>
           </tr>
         </thead>
         <tbody>
-          <tr><td>1</td><td>CaptainJack</td><td>15</td><td>3</td></tr>
-          <tr><td>2</td><td>SeaDestroyer</td><td>12</td><td>4</td></tr>
-          <tr><td>3</td><td>NavalMaster</td><td>10</td><td>6</td></tr>
-          <tr><td>4</td><td>TorpedoKing</td><td>9</td><td>7</td></tr>
-          <tr><td>5</td><td>SubmarineAce</td><td>8</td><td>8</td></tr>
-          <tr><td>6</td><td>MissileHawk</td><td>7</td><td>9</td></tr>
-          <tr><td>7</td><td>DeepBlue</td><td>6</td><td>10</td></tr>
+          {scores.map(player => (
+            <tr key={player.username} style={{ borderBottom: '1px solid #eee' }}>
+              <td style={{
+                padding: '0.5rem',
+                fontWeight: storedUsername === player.username ? 'bold' : 'normal',
+                color: storedUsername === player.username ? '#007BFF' : 'white'
+              }}>
+                {player.username}
+              </td>
+              <td style={{ padding: '0.5rem' }}>{player.wins}</td>
+              <td style={{ padding: '0.5rem' }}>{player.losses}</td>
+            </tr>
+          ))}
         </tbody>
       </table>
-    </main>
+    </div>
   );
 }
