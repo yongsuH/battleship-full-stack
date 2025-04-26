@@ -32,7 +32,9 @@ router.post('/login', async (req, res) => {
     }
 
     res.cookie('user', user.username, { httpOnly: true });
-    res.json({ message: 'Login successful' });
+    res.json({ message: 'Login successful',
+        username: user.username
+    });
   } catch (err) {
     res.status(500).json({ message: 'Login failed', error: err.message });
   }
