@@ -38,29 +38,37 @@ export default function Navbar() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    const res = await fetch('https://battleship-full-stack.onrender.com/api/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-      body: JSON.stringify({ username: loginUsername, password: loginPassword })
-    });
-    if (res.ok) {
-      setUsername(loginUsername);
-      localStorage.setItem('username', loginUsername);
-      setShowLoginModal(false);
-      setLoginUsername('');
-      setLoginPassword('');
-      toast.success(`Login successful! Welcome, ${signupUsername}!`);
-      navigate('/');
-    } else {
-      if (res.status === 401) {
-        toast.error('Incorrect username or password!');
+    try {
+      const res = await fetch('https://battleship-full-stack.onrender.com/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ username: loginUsername, password: loginPassword })
+      });
+  
+      if (res.ok) {
+        const data = await res.json();
+        setUsername(data.username); // user name from backend
+        localStorage.setItem('username', data.username);
+        setShowLoginModal(false);
+        setLoginUsername('');
+        setLoginPassword('');
+        toast.success(`Login successful! Welcome, ${data.username}!`);
+        navigate('/');
       } else {
-        const err = await res.json();
-        toast.error(`Login failed: ${err.message || 'Unknown error'}`);
+        if (res.status === 401) {
+          toast.error('Incorrect username or password!');
+        } else {
+          const err = await res.json();
+          toast.error(`Login failed: ${err.message || 'Unknown error'}`);
+        }
       }
+    } catch (error) {
+      console.error('Login error:', error);
+      toast.error('Something went wrong.');
     }
   };
+  
   
 
   const handleSignup = async (e) => {
