@@ -9,20 +9,21 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-    origin: 'http://localhost:5173', // 允许前端访问
-    credentials: true                // 允许发送cookie
+    origin: ['http://localhost:5173', 
+    'https://battleship-client-re0d.onrender.com'],
+    credentials: true                
   }));
   
 // Connect to MongoDB
 async function connectDB() {
-  try {
-    await mongoose.connect('mongodb+srv://admin:aCQAjUVPNbl39AC5@cluster0.0sup0nn.mongodb.net/battleship?retryWrites=true&w=majority&appName=Cluster0');
-    console.log('✅ MongoDB connected');
-  } catch (err) {
-    console.error('❌ MongoDB connection error:', err);
-    process.exit(1);
+    try {
+      await mongoose.connect(process.env.MONGODB_URI);
+      console.log('✅ MongoDB connected');
+    } catch (err) {
+      console.error('❌ MongoDB connection error:', err);
+      process.exit(1);
+    }
   }
-}
 connectDB();
 
 // Routes
