@@ -13,14 +13,14 @@ export default function GamePage() {
   useEffect(() => {
     async function fetchGame() {
       try {
-        const res = await fetch(`/api/games/${gameId}`, {
+        const res = await fetch(`https://battleship-full-stack.onrender.com/api/games/${gameId}`, {
           credentials: 'include'
         });
         if (!res.ok) throw new Error('Failed to fetch game');
         const data = await res.json();
 
         if (data.status === 'Active' && (!Array.isArray(data.player1Board) || !Array.isArray(data.player2Board) || data.player1Board.length === 0 || data.player2Board.length === 0)) {
-          const initRes = await fetch(`/api/games/${gameId}/init-board`, {
+          const initRes = await fetch(`https://battleship-full-stack.onrender.com/api/games/${gameId}/init-board`, {
             method: 'PATCH',
             credentials: 'include'
           });
@@ -68,7 +68,7 @@ export default function GamePage() {
     if (!isMyTurn || attackInProgress) return;
     setAttackInProgress(true);
     try {
-      const res = await fetch(`/api/games/${gameId}/attack`, {
+      const res = await fetch(`https://battleship-full-stack.onrender.com/api/games/${gameId}/attack`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',

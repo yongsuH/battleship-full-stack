@@ -6,7 +6,7 @@ export default function HighScores() {
   const storedUsername = localStorage.getItem('username');
 
   useEffect(() => {
-    fetch('/api/highscores', {
+    fetch('https://battleship-full-stack.onrender.com/api/highscores', {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include'

@@ -12,7 +12,7 @@ export default function NewGame() {
         return;
       }
 
-      const res = await fetch('/api/games', {
+      const res = await fetch('https://battleship-full-stack.onrender.com/api/games', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',

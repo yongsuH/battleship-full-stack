@@ -6,7 +6,7 @@ export default function AllGames() {
   const [games, setGames] = useState([]);
 
   useEffect(() => {
-    fetch('/api/games', {
+    fetch('https://battleship-full-stack.onrender.com/api/games', {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include'
@@ -32,7 +32,7 @@ export default function AllGames() {
         alert('You must be logged in to join a game!');
         return;
       }
-      const res = await fetch(`/api/games/${gameId}/join`, {
+      const res = await fetch(`https://battleship-full-stack.onrender.com/api/games/${gameId}/join`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
